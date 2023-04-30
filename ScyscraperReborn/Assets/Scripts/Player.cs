@@ -41,7 +41,7 @@ public class Player : Human
     private TMP_Text ammoText;
 
     private GameObject closestInteractable;
-
+     
     [SerializeField]
     private Weapon weapon;
     [SerializeField]

@@ -127,7 +127,7 @@ public class Enemy : Human,Damagable
     }
     private void GoIdle(int interval)
     {
-        state = State.Idle;
+        state = State.Idle; 
         Timer aTimer = new Timer();
         aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
         aTimer.Interval = interval;

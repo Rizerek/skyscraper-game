@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 243176097}
   - component: {fileID: 243176099}
   - component: {fileID: 243176096}
+  - component: {fileID: 243176100}
   m_Layer: 7
   m_Name: lampa
   m_TagString: Untagged
@@ -604,7 +605,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.014482915, y: 0.11}
+  m_Offset: {x: -0.006373957, y: -0.06206905}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.48868522, y: 0.8326545}
@@ -615,7 +616,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23, y: 0.25}
+  m_Size: {x: 0.27171376, y: 0.395998}
   m_EdgeRadius: 0
 --- !u!212 &243176097
 SpriteRenderer:
@@ -696,6 +697,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1d414bfcd516446b5e2b5655286995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &243176100
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243176095}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class Aim : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
+    
     void Update()
     {
         Vector2 playerPos = player.transform.position+new Vector3(0f, 0.8f,0f);
