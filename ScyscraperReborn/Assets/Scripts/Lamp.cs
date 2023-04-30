@@ -22,7 +22,7 @@ public class Lamp : MonoBehaviour,Damagable
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.layer!=10&true)
+        if (col.gameObject.layer!=10&falling)
         {
             Destroy(gameObject);
         }
