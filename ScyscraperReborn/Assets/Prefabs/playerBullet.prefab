@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6608125400256729500}
   - component: {fileID: 8525792582512822789}
   m_Layer: 10
-  m_Name: blank
+  m_Name: playerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 512
+  players: 1
 --- !u!61 &6608125400256729500
 BoxCollider2D:
   m_ObjectHideFlags: 0

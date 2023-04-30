@@ -11,7 +11,8 @@ public class Enemy : Human,Damagable
         Idle,
         Running,
         Shoot,
-        Walking
+        Walking,
+        Shooting
     }
 
     [SerializeField]
@@ -35,6 +36,14 @@ public class Enemy : Human,Damagable
     private State state;
     [SerializeField]
     private Weapon weapon;
+
+
+    [SerializeField]
+    private float timeBetweenShots;
+    [SerializeField]
+    private float timeBetweenRounds;
+    [SerializeField]
+    private int roundNumber;
 
     // Start is called before the first frame update
     void Start()
@@ -73,17 +82,14 @@ public class Enemy : Human,Damagable
         {
             if (state==State.Running)
             {
-                if (Math.Abs(transform.position.x - direction.x) < 0.01f)
+                if (Math.Abs(transform.position.x - direction.x) < 0.01f)//tutaj chodzi o dokladnosc
                 {
                     if (player.transform.position.x > closestTable.transform.position.x)
                     {
-
                         closestTable.GetComponent<Table>().Flip(true);
-                       
                     }
                     else
                     {
-
                         closestTable.GetComponent<Table>().Flip(false);
                     }
                     state = State.Shoot;
@@ -92,7 +98,9 @@ public class Enemy : Human,Damagable
             }
             if (state == State.Shoot)
             {
+                state = State.Shooting;
                 Shoot();
+                
             }
            
         }
@@ -122,8 +130,25 @@ public class Enemy : Human,Damagable
             heat = movingInaccuracy;
         }
         */
-       
-        weapon.Shoot();
+        
+        StartCoroutine(ShootInterval());
+    }
+    IEnumerator ShootInterval()
+    {
+        if (state == State.Shooting)
+        {
+            
+
+            shooting = true;
+            for (int i = 0; i < roundNumber; i++)
+            {
+                weapon.Shoot();
+                yield return new WaitForSeconds(timeBetweenShots);
+            }
+            shooting = false;
+            yield return new WaitForSeconds(timeBetweenRounds);
+            StartCoroutine(ShootInterval());
+        }
     }
     private void GoIdle(int interval)
     {
@@ -143,20 +168,19 @@ public class Enemy : Human,Damagable
     {
         if (Math.Abs(transform.position.x - closestTable.transform.position.x)<Math.Abs(transform.position.x -player.transform.position.x))
         {
-
-            
             if (player.transform.position.x>closestTable.transform.position.x)
             {
-
                 direction = closestTable.transform.position + new Vector3(-1.2f, 0f, 0f);
             }
             else
             {
-                
                 direction = closestTable.transform.position + new Vector3(1.2f, 0f, 0f);
             }
-
             state = State.Running;
+        }
+        else
+        {
+            state = State.Shoot;
         }
     }
     public void Damage(int dmg)
@@ -175,7 +199,6 @@ public class Enemy : Human,Damagable
             state = State.Walking;
         }
         ((Timer) source).Stop();
-        Debug.Log("aaa");
     }
     private void FindTable()
     {

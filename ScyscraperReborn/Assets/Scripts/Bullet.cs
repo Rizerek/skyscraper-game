@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     private Vector2 startPos;
     public int dmg;
     [SerializeField]
-    private LayerMask player;
+    private bool players;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,14 +25,23 @@ public class Bullet : MonoBehaviour
      void OnTriggerEnter2D(Collider2D collision)
      {
 
-        if (collision.gameObject.layer == 7)
+        if (collision.gameObject.layer == 7&&players)
         {
             collision.gameObject.GetComponent<Damagable>().Damage(dmg);
 
         }
+        //if(collision.gameObject.layer == 9&&!players)
         if (collision.gameObject.layer!= 9&&collision.gameObject.layer!= 12)
         {
-            Destroy(gameObject);
+            if (!players && collision.gameObject.layer == 7)
+            {
+                //HIT MY FELLOW ENEMY
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
         }
       }
 }

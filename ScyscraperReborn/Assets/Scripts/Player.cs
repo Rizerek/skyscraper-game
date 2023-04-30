@@ -47,7 +47,7 @@ public class Player : Human
     [SerializeField]
     private GameObject hand;
 
-    // Start is called before the first frame update
+    // TODO : kiedy ma sie blisko drzwi i table czasem nie da sie przeskoczyc przez table bo podswietla tylko drzwi (nalezy podniesc punkt drzwi)
     void Start()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -164,6 +164,7 @@ public class Player : Human
         }
         weaponList[weaponSlot].SetActive(true);
         weapon = weaponList[weaponSlot].GetComponent<Weapon>();
+        RefreshAmmoText();
     }
     void RefreshAmmoText()
     {
