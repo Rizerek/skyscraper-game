@@ -1771,8 +1771,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   m_CrouchDisableCollider: {fileID: 803934267}
+  m_CrouchDisableObject: {fileID: 1597466797}
   m_wasCrouching: 0
-  runSpeed: 40
+  defaultRunSpeed: 40
   horizontalMove: 0
   levelManager: {fileID: 1796784029}
   weaponList:

@@ -19,6 +19,8 @@ public class Player : Human
     [SerializeField]
     private Collider2D m_CrouchDisableCollider;
     [SerializeField]
+    private GameObject m_CrouchDisableObject;
+    [SerializeField]
     private bool m_wasCrouching = false;
     private Rigidbody2D m_Rigidbody2D;
     private Vector3 m_Velocity = Vector3.zero;
@@ -91,6 +93,7 @@ public class Player : Human
         }
         if (crouch)
         {
+            m_CrouchDisableObject.SetActive(false);
             runSpeed = defaultRunSpeed / 2;
             if (!m_wasCrouching)
             {
@@ -102,6 +105,7 @@ public class Player : Human
         }
         else
         {
+            m_CrouchDisableObject.SetActive(true);
             runSpeed = defaultRunSpeed;
             if (m_CrouchDisableCollider != null)
                 m_CrouchDisableCollider.enabled = true;

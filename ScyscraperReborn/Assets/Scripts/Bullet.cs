@@ -31,15 +31,28 @@ public class Bullet : MonoBehaviour
 
         }
         //if(collision.gameObject.layer == 9&&!players)
-        if (collision.gameObject.layer!= 9&&collision.gameObject.layer!= 12)
+        if (collision.gameObject.layer!= 9)
         {
+            
             if (!players && collision.gameObject.layer == 7)
             {
                 //HIT MY FELLOW ENEMY
             }
             else
             {
-                Destroy(gameObject);
+                if (collision.gameObject.layer == 12 )
+                {
+                    if (collision.gameObject.GetComponent<Collider2D>().isTrigger != true)
+                    {
+                        Destroy(gameObject);
+                    }
+
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+               
             }
             
         }
