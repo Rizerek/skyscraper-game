@@ -206,6 +206,10 @@ public class Player : Human
             closestInteractable.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
+    public bool GetCrouch()
+    {
+        return crouch;
+    }
 
 
 }

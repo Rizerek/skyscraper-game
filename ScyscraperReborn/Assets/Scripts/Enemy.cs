@@ -24,9 +24,8 @@ public class Enemy : Human,Damagable
     private LevelManager levelManager;
     private GameObject closestTable;
     [SerializeField]
-    private bool angry;
-    [SerializeField]
-    private Vector3 direction;
+    public bool angry;
+    public Vector3 direction;
     private GameObject player;
     [SerializeField]
     private float angrySpeed;
@@ -58,14 +57,29 @@ public class Enemy : Human,Damagable
     // Update is called once per frame
     void Update()
     {
-        if (player.transform.position.x>gameObject.transform.position.x)
+        if (angry)
         {
-            weapon.gameObject.transform.rotation = Quaternion.Euler(0,0,0);
+            if (player.transform.position.x > gameObject.transform.position.x)
+            {
+                weapon.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                weapon.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
         }
         else
         {
-            weapon.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (direction.x > gameObject.transform.position.x)
+            {
+                weapon.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else
+            {
+                weapon.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
         }
+        
         if (!angry)
         {
             if (state==State.Walking)
@@ -117,7 +131,8 @@ public class Enemy : Human,Damagable
 
         if (hp<=0)
         {
-            Destroy(gameObject);
+            levelManager.removeFromEnemyList(gameObject);
+            Destroy(gameObject); 
         }
         
     }
@@ -158,11 +173,15 @@ public class Enemy : Human,Damagable
         aTimer.Interval = interval;
         aTimer.Enabled = true;
     }
-    private void GoAngry()
+    public void GoAngry()
     {
-        angry = true;
-        FindTable();
-        DecideWhatToDo();
+        if (!angry)
+        {
+            angry = true;
+            FindTable();
+            DecideWhatToDo();
+        }
+       
     }
     private void DecideWhatToDo()
     {
@@ -185,6 +204,10 @@ public class Enemy : Human,Damagable
     }
     public void Damage(int dmg)
     {
+        if (!angry)
+        {
+            GoAngry();
+        }
         hp -= dmg;
     }
     private void GetCalm()

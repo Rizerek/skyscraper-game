@@ -7,6 +7,8 @@ public class Lamp : MonoBehaviour,Damagable
 {
     private Rigidbody2D rb2d;
     private bool falling;
+    [SerializeField]
+    private int damage;
     void Start()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
@@ -24,6 +26,10 @@ public class Lamp : MonoBehaviour,Damagable
     {
         if (col.gameObject.layer!=10&falling)
         {
+            if (col.gameObject.layer==7|| col.gameObject.layer == 9)
+            {
+                col.gameObject.GetComponent<Damagable>().Damage(damage);
+            }
             Destroy(gameObject);
         }
     }

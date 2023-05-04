@@ -6,16 +6,71 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> interactables;
+    [SerializeField]
+    private List<GameObject> enemies;
+    [SerializeField]
+    private float aggroDistance;
+    [SerializeField]
+    private float backAggroDistance;
+    private GameObject playerObj;
+    private Player player;
     //TODO : autododawanie interactabli do listy    
     void Start()
     {
-        
+        playerObj = GameObject.Find("Player");
+        player = playerObj.GetComponent<Player>();
+        StartCoroutine(EnemyAggroSystem());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //czy kuca
+            //tak to sprawdz czy patrzy w jego strone
+                //nie return
+                //tak sprawdz odleglosc
+            //nie sprawdz odleglosc z przodu i z tylu
+    }
+    IEnumerator EnemyAggroSystem()
+    {
+        foreach (GameObject enemyObj in enemies)
+        {
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+            bool lookingRight = enemy.direction.x > enemyObj.transform.position.x;
+            bool playerOnRight = enemyObj.transform.position.x < playerObj.transform.position.x;
+            float leftDistance = enemyObj.transform.position.x - playerObj.transform.position.x;
+            float rightDistance = playerObj.transform.position.x - enemyObj.transform.position.x;
+            if (lookingRight)//patrzy w prawo
+            {
+                if (playerOnRight && rightDistance < aggroDistance)//gracz jest po prawej stronie i odleglosc mniejsza od aggroDistance
+                {
+                    enemy.GoAngry();
+                }
+                else if (!playerOnRight && leftDistance < backAggroDistance && !player.GetCrouch())//gracz jest po lewej stronie i odleglosc mniejsza od backAggroDistance i player nie kuca
+                {
+                    enemy.GoAngry();
+                }
+            }
+            else//patrzy w lewo
+            {
+                if (!playerOnRight && leftDistance < aggroDistance)
+                {
+                    enemy.GoAngry();
+                }
+                else if (playerOnRight && rightDistance < backAggroDistance && !player.GetCrouch())
+                {
+                    enemy.GoAngry();
+                }
+
+            }
+        }
+
+        yield return new WaitForSeconds(.01f);
+        StartCoroutine(EnemyAggroSystem());
+    }
+    public void removeFromEnemyList(GameObject gameObject)
+    {
+        enemies.Remove(gameObject);
     }
     public List<GameObject> GetInteractables()
     {
