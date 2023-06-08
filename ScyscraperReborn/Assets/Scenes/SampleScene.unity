@@ -3212,7 +3212,7 @@ MonoBehaviour:
   automatic: 0
   bulletDestroyTime: 0
   maxAmmo: 1
-  allAmmo: 0
+  allAmmo: 4
   ammo: 0
   owner: {fileID: 803934270}
 --- !u!1 &1681771657
@@ -3316,7 +3316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: maxHp
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: levelManager
@@ -3373,6 +3373,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 546705125749408176, guid: 5f3ce7b99d736d24cbcb406423a4a54a, type: 3}
   m_PrefabInstance: {fileID: 546705125305516786}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1762174217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4506877309404356433, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+  m_PrefabInstance: {fileID: 171720850689783201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1762174220
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762174217}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1796784028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3870,7 +3896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: maxHp
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: meleeDamage

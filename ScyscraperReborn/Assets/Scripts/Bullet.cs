@@ -36,7 +36,15 @@ public class Bullet : MonoBehaviour
         }
         if (collision.gameObject.layer == 7&&players)
         {
-            collision.gameObject.GetComponent<Damagable>().Damage(dmg);
+            if (collision.gameObject.name.Contains("head"))
+            {
+                collision.gameObject.GetComponent<Damagable>().Damage(dmg*2);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Damagable>().Damage(dmg);
+            }
+            
 
         }
         //if(collision.gameObject.layer == 9&&!players)

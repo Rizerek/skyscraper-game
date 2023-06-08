@@ -26,10 +26,10 @@ public class HeGranade : MonoBehaviour,Grenade
         timer += Time.deltaTime;
         if (timer>timeTillExplosion)
         {
-            Collider2D[] col = Physics2D.OverlapCircleAll(gameObject.transform.position, 2f, enemy);
+                Collider2D[] col = Physics2D.OverlapCircleAll(gameObject.transform.position, 2f);
                 foreach (Collider2D c in col)
                 {
-                    if (c.gameObject.layer == 7)
+                    if (c.gameObject.layer == 7|| c.gameObject.layer ==9)
                     {
                         Debug.Log(c.gameObject.name);
                         c.gameObject.GetComponent<Damagable>().Damage(dmg);
