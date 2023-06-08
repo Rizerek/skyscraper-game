@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour
             bool playerOnRight = enemyObj.transform.position.x < playerObj.transform.position.x;
             float leftDistance = enemyObj.transform.position.x - playerObj.transform.position.x;
             float rightDistance = playerObj.transform.position.x - enemyObj.transform.position.x;
-            if (Mathf.Abs(gameObject.transform.position.y - enemy.transform.position.y) < 2)
+            if (Mathf.Abs(player.transform.position.y - enemy.transform.position.y) < 2)
             {
                 if (lookingRight)//patrzy w prawo
                 {

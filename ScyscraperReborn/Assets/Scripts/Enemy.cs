@@ -37,6 +37,7 @@ public class Enemy : Human,Damagable
     private Vector3 startPos;
     [SerializeField]
     private LevelManager levelManager;
+    [SerializeField]
     private GameObject closestTable;
     [SerializeField]
     public bool angry;
@@ -130,7 +131,7 @@ public class Enemy : Human,Damagable
                     {
                         direction = player.transform.position + new Vector3(2f, 0f, 0f);
                     }
-                    if (Math.Abs(transform.position.x - player.transform.position.x)<= meleeAttackRange)
+                    if (Math.Abs(transform.position.x - player.transform.position.x)<= meleeAttackRange&& Mathf.Abs(gameObject.transform.position.y - player.transform.position.y) < 2)
                     {
                         StartCoroutine(MeleeAttack());
                     }
@@ -140,14 +141,23 @@ public class Enemy : Human,Damagable
                 {
                     if (type == Type.gunner)
                     {
-                        if (player.transform.position.x > closestTable.transform.position.x)
+                        //here when closest table is defined as enemy error occurs
+                        try
                         {
-                            closestTable.GetComponent<Table>().Flip(true);
+                            if (player.transform.position.x > closestTable.transform.position.x)
+                            {
+                                closestTable.GetComponent<Table>().Flip(true);
+                            }
+                            else
+                            {
+                                closestTable.GetComponent<Table>().Flip(false);
+                            }
                         }
-                        else
+                        catch
                         {
-                            closestTable.GetComponent<Table>().Flip(false);
+                            Debug.Log("cant flip myself");
                         }
+                        
                         state = State.Shoot;
                     }
                     
@@ -184,7 +194,7 @@ public class Enemy : Human,Damagable
         {
             meleeAttacking = true;
             yield return new WaitForSeconds(meleeChargeTime);
-            if (Math.Abs(transform.position.x - player.transform.position.x) <= meleeAttackRange)
+            if (Math.Abs(transform.position.x - player.transform.position.x) <= meleeAttackRange&& Mathf.Abs(gameObject.transform.position.y - player.transform.position.y) < 2)
             {
                 player.GetComponent<Player>().Damage(meleeDamage);
                 Debug.Log("melee");
@@ -311,13 +321,18 @@ public class Enemy : Human,Damagable
                 {
                     closestTable = interactable;
                 }
-                else if(Math.Abs(closestTable.transform.position.x-gameObject.transform.position.x)> Math.Abs(interactable.transform.position.x - gameObject.transform.position.x))
+                else if(Math.Abs(closestTable.transform.position.x-gameObject.transform.position.x)> Math.Abs(interactable.transform.position.x - gameObject.transform.position.x)&& Math.Abs(interactable.transform.position.y - gameObject.transform.position.y)<2)
                 {
                     
                     closestTable = interactable;
-                } 
+                }
+                
             }
         }
-      
+        if (Math.Abs(closestTable.transform.position.y - gameObject.transform.position.y) > 2)
+        {
+            closestTable = gameObject;
+            state = State.Shoot;
+        }
     }
 }
