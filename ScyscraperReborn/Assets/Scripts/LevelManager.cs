@@ -14,13 +14,18 @@ public class LevelManager : MonoBehaviour
     private float aggroDistance;
     [SerializeField]
     private float backAggroDistance;
+    [SerializeField]
+    private GameObject extractionZone;
+    private bool objectiveComplete;
     private GameObject playerObj;
     private Player player;
+    private GameManager gameManager;
     private int currentLvl;
 
     //TODO : autododawanie interactabli do listy    
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerObj = GameObject.Find("Player");
         player = playerObj.GetComponent<Player>();
         StartCoroutine(EnemyAggroSystem());
@@ -29,6 +34,11 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (enemies.Count==0&&!objectiveComplete)
+        {
+            objectiveComplete = true;
+            extractionZone.SetActive(true);
+        }
         //czy kuca
             //tak to sprawdz czy patrzy w jego strone
                 //nie return

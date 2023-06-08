@@ -1590,7 +1590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &664791316
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3440,6 +3440,7 @@ MonoBehaviour:
   - {fileID: 1796981750}
   aggroDistance: 10
   backAggroDistance: 3
+  extractionZone: {fileID: 664791315}
 --- !u!4 &1796784030
 Transform:
   m_ObjectHideFlags: 0

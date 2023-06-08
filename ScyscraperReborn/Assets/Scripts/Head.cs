@@ -12,7 +12,7 @@ public class Head : MonoBehaviour,Damagable
         hp -= dmg;
         if (hp<=0)
         {
-            Destroy(parent);
+            parent.GetComponent<Damagable>().Damage(1000000);
         }
     }
 }
