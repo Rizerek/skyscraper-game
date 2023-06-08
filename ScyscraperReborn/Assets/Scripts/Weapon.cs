@@ -102,7 +102,11 @@ public class Weapon : MonoBehaviour
 
                 Quaternion rot = Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, (gameObject.transform.rotation.eulerAngles.z + Random.Range(-heat, heat)));
                 GameObject bulletObj = Instantiate(bullet, shootPos.position, rot);
-                bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
+                if (bulletObj.GetComponent<Bullet>()!=null)
+                {
+                    bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
+                }
+               
                 timer = 0;
                 if (heat < maxSpread)
                 {

@@ -3408,6 +3408,7 @@ MonoBehaviour:
   - {fileID: 81553998}
   - {fileID: 1737835330}
   - {fileID: 805805645}
+  - {fileID: 2061214564}
   enemies:
   - {fileID: 1458932725}
   - {fileID: 1796981750}
