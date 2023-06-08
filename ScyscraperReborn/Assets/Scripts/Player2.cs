@@ -63,7 +63,7 @@ public class Player2 : Human
         //etap1
         if (Input.GetButton("Fire1"))
         {
-            ammoText.SetText(weapon.ammo + "/" + (weapon.maxAmmo * weapon.mags));
+            ammoText.SetText(weapon.ammo + "/" + (weapon.allAmmo));
             weapon.Shoot();
 
         }
@@ -89,7 +89,7 @@ public class Player2 : Human
         if (Input.GetKeyDown(KeyCode.R))
         {
             weapon.Reload();
-            ammoText.SetText(weapon.ammo + "/" + (weapon.maxAmmo * weapon.mags));
+            ammoText.SetText(weapon.ammo + "/" + (weapon.allAmmo));
         }
         //etap3
         foreach (GameObject interactable in levelManager.GetInteractables())

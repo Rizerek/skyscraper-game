@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    
+
     [SerializeField]
     private List<GameObject> interactables;
     [SerializeField]
-    private List<GameObject> enemies;
+    public List<GameObject>  enemies;
     [SerializeField]
     private float aggroDistance;
     [SerializeField]
     private float backAggroDistance;
     private GameObject playerObj;
     private Player player;
+    private int currentLvl;
+
     //TODO : autododawanie interactabli do listy    
     void Start()
     {
@@ -40,35 +44,40 @@ public class LevelManager : MonoBehaviour
             bool playerOnRight = enemyObj.transform.position.x < playerObj.transform.position.x;
             float leftDistance = enemyObj.transform.position.x - playerObj.transform.position.x;
             float rightDistance = playerObj.transform.position.x - enemyObj.transform.position.x;
-            if (lookingRight)//patrzy w prawo
+            if (Mathf.Abs(gameObject.transform.position.y - enemy.transform.position.y) < 2)
             {
-                if (playerOnRight && rightDistance < aggroDistance)//gracz jest po prawej stronie i odleglosc mniejsza od aggroDistance
+                if (lookingRight)//patrzy w prawo
                 {
-                    enemy.GoAngry();
-                }
-                else if (!playerOnRight && leftDistance < backAggroDistance && !player.GetCrouch())//gracz jest po lewej stronie i odleglosc mniejsza od backAggroDistance i player nie kuca
-                {
-                    enemy.GoAngry();
-                }
-            }
-            else//patrzy w lewo
-            {
-                if (!playerOnRight && leftDistance < aggroDistance)
-                {
-                    enemy.GoAngry();
-                }
-                else if (playerOnRight && rightDistance < backAggroDistance && !player.GetCrouch())
-                {
-                    enemy.GoAngry();
-                }
+                    if (playerOnRight && rightDistance < aggroDistance)//gracz jest po prawej stronie i odleglosc mniejsza od aggroDistance
+                    {
 
+                        StartCoroutine(enemy.GoAngry());
+                    }
+                    else if (!playerOnRight && leftDistance < backAggroDistance && !player.GetCrouch())//gracz jest po lewej stronie i odleglosc mniejsza od backAggroDistance i player nie kuca
+                    {
+                        StartCoroutine(enemy.GoAngry());
+                    }
+                }
+                else//patrzy w lewo
+                {
+                    if (!playerOnRight && leftDistance < aggroDistance)
+                    {
+                        StartCoroutine(enemy.GoAngry());
+                    }
+                    else if (playerOnRight && rightDistance < backAggroDistance && !player.GetCrouch())
+                    {
+                        StartCoroutine(enemy.GoAngry());
+                    }
+
+                }
             }
+            
         }
 
         yield return new WaitForSeconds(.01f);
         StartCoroutine(EnemyAggroSystem());
     }
-    public void removeFromEnemyList(GameObject gameObject)
+    public void removeFromEnemyList(GameObject gameObject,int lvl)
     {
         enemies.Remove(gameObject);
     }

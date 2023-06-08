@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Player : Human
+public class Player : Human,Damagable
 {
+    [SerializeField]
+    private int hp;
     [SerializeField]
     public Transform aim;
     [SerializeField]
@@ -28,7 +30,7 @@ public class Player : Human
     [SerializeField]
     private float defaultRunSpeed = 40f;
     public float horizontalMove = 0f;
-
+    
 
     [SerializeField]
     private LevelManager levelManager;
@@ -51,9 +53,12 @@ public class Player : Human
     [SerializeField]
     private GameObject hand;
 
+    private GameManager gameManager;
+
     // TODO : kiedy ma sie blisko drzwi i table czasem nie da sie przeskoczyc przez table bo podswietla tylko drzwi (nalezy podniesc punkt drzwi)
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         runSpeed = defaultRunSpeed;
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
@@ -113,6 +118,14 @@ public class Player : Human
             {
                 m_wasCrouching = false;
             }
+        }
+    }
+    public void Damage(int dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0)
+        {
+            gameManager.PlayerDied();
         }
     }
     void InputsHandle()
@@ -177,7 +190,7 @@ public class Player : Human
     }
     void RefreshAmmoText()
     {
-        ammoText.SetText(weapon.ammo + "/" + (weapon.maxAmmo * weapon.mags));
+        ammoText.SetText(weapon.ammo + "/" + (weapon.allAmmo));
     }
     void ClosestInteractableHighlighting()
     {
@@ -190,7 +203,7 @@ public class Player : Human
             }
             else
             {
-                if (Mathf.Abs(closestInteractable.transform.position.x - gameObject.transform.position.x) > Mathf.Abs(interactable.transform.position.x - gameObject.transform.position.x))
+                if (Mathf.Abs(closestInteractable.transform.position.x - gameObject.transform.position.x) > Mathf.Abs(interactable.transform.position.x - gameObject.transform.position.x) && Mathf.Abs(gameObject.transform.position.y-interactable.transform.position.y)<2)
                 {
                     closestInteractable.GetComponent<SpriteRenderer>().color = Color.white;
                     closestInteractable = interactable;

@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public int dmg;
     [SerializeField]
     private bool players;
+    private int destroyTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,14 +18,22 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(startPos, transform.position) > 35)
+        if (Vector2.Distance(startPos, transform.position) > destroyTime)
             Destroy(gameObject);
         gameObject.transform.position += transform.right * Time.deltaTime*50;
 
     }
+    public void SetDestroyTime(int destTime)
+    {
+        destroyTime = destTime;
+    }
      void OnTriggerEnter2D(Collider2D collision)
      {
-
+        if (collision.gameObject.layer == 9 && !players)
+        {
+            collision.gameObject.GetComponent<Damagable>().Damage(dmg);
+            Destroy(gameObject);
+        }
         if (collision.gameObject.layer == 7&&players)
         {
             collision.gameObject.GetComponent<Damagable>().Damage(dmg);
@@ -57,4 +66,5 @@ public class Bullet : MonoBehaviour
             
         }
       }
+    
 }

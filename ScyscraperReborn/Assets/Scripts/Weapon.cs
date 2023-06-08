@@ -22,20 +22,23 @@ public class Weapon : MonoBehaviour
     private float heatTime;
     [SerializeField]
     private bool automatic;
+    [SerializeField]
+    private int bulletDestroyTime;
     private float heat=0;
     private float timer;
     private float timer2;
 
     public int maxAmmo;
+    public int allAmmo;
     public int ammo;
-    public int mags;
+  //  public int mags;
 
     public Human owner;
     // Start is called before the first frame update
     void Start()
     {
         ammo = maxAmmo;
-        mags--;
+      //  mags--;
     }
 
     // Update is called once per frame
@@ -51,10 +54,21 @@ public class Weapon : MonoBehaviour
     }
     public void Reload()
     {
-        if (ammo < maxAmmo && mags > 0 )
+        if (ammo < maxAmmo && allAmmo > 0 )
         {
-            mags--;
-            ammo = maxAmmo;
+            //mags--;
+            if (allAmmo>=maxAmmo)
+            {
+                allAmmo -= (maxAmmo-ammo);
+                ammo = maxAmmo;
+                
+            }
+            else
+            {
+                ammo = allAmmo;
+                allAmmo = 0;
+            }
+            
         }
     }
     public void Shoot()
@@ -65,7 +79,8 @@ public class Weapon : MonoBehaviour
             {
                 
                 Quaternion rot = Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, (gameObject.transform.rotation.eulerAngles.z + Random.Range(-heat, heat)));
-                Instantiate(bullet, shootPos.position, rot);
+                GameObject bulletObj  = Instantiate(bullet, shootPos.position, rot);
+                bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
                 if (heat < maxSpread)
                 {
                     heat += spreadSpeed;
@@ -86,7 +101,8 @@ public class Weapon : MonoBehaviour
             {
 
                 Quaternion rot = Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, (gameObject.transform.rotation.eulerAngles.z + Random.Range(-heat, heat)));
-                Instantiate(bullet, shootPos.position, rot);
+                GameObject bulletObj = Instantiate(bullet, shootPos.position, rot);
+                bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
                 timer = 0;
                 if (heat < maxSpread)
                 {

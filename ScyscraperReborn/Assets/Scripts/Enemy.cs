@@ -43,6 +43,14 @@ public class Enemy : Human,Damagable
     private float timeBetweenRounds;
     [SerializeField]
     private int roundNumber;
+    [SerializeField]
+    private float aggroBufferTime;
+
+    public SpriteRenderer visual;
+
+    //TODO: SPRAWDZANIE NA JAKIM LEVELU JEST PRZECIWNIK
+    [SerializeField]
+    private int currentLvl;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +59,7 @@ public class Enemy : Human,Damagable
         hp = maxHp;
         startPos = gameObject.transform.position;
         state = State.Walking;
-       
+        direction = startPos + new Vector3(UnityEngine.Random.Range(-4, 4), 0f, 0f);
     }
 
     // Update is called once per frame
@@ -120,7 +128,7 @@ public class Enemy : Human,Damagable
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            GoAngry();
+            StartCoroutine(GoAngry());
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
@@ -129,11 +137,7 @@ public class Enemy : Human,Damagable
         //if(moving) isMoving=true;
         //else isMoving =false;
 
-        if (hp<=0)
-        {
-            levelManager.removeFromEnemyList(gameObject);
-            Destroy(gameObject); 
-        }
+       
         
     }
     void Shoot()
@@ -173,11 +177,15 @@ public class Enemy : Human,Damagable
         aTimer.Interval = interval;
         aTimer.Enabled = true;
     }
-    public void GoAngry()
+    public IEnumerator GoAngry()
     {
         if (!angry)
         {
+            Color prevColor = visual.color;
+            visual.color = Color.black;
             angry = true;
+            yield return new WaitForSeconds(aggroBufferTime);
+            visual.color = prevColor;
             FindTable();
             DecideWhatToDo();
         }
@@ -206,9 +214,14 @@ public class Enemy : Human,Damagable
     {
         if (!angry)
         {
-            GoAngry();
+            StartCoroutine(GoAngry());
         }
         hp -= dmg;
+        if (hp <= 0)
+        {
+            levelManager.removeFromEnemyList(gameObject, currentLvl);
+            Destroy(gameObject);
+        }
     }
     private void GetCalm()
     {
