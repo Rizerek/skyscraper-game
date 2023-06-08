@@ -14,11 +14,26 @@ public class Enemy : Human,Damagable
         Walking,
         Shooting
     }
+    enum Type
+    {
+        gunner,
+        rusher
+    }
+
 
     [SerializeField]
     private int hp;
     [SerializeField]
     private int maxHp;
+    [SerializeField]
+    private int meleeDamage;
+    [SerializeField]
+    private float meleeAttackCooldown;
+    [SerializeField]
+    private float meleeAttackRange;
+    [SerializeField]
+    private float meleeChargeTime;
+    private bool meleeAttacking;
     private Vector3 startPos;
     [SerializeField]
     private LevelManager levelManager;
@@ -34,8 +49,9 @@ public class Enemy : Human,Damagable
     [SerializeField]
     private State state;
     [SerializeField]
+    private Type type;
+    [SerializeField]
     private Weapon weapon;
-
 
     [SerializeField]
     private float timeBetweenShots;
@@ -104,17 +120,38 @@ public class Enemy : Human,Damagable
         {
             if (state==State.Running)
             {
-                if (Math.Abs(transform.position.x - direction.x) < 0.01f)//tutaj chodzi o dokladnosc
+                if (type == Type.rusher)
                 {
-                    if (player.transform.position.x > closestTable.transform.position.x)
+                    if (player.transform.position.x>gameObject.transform.position.x)
                     {
-                        closestTable.GetComponent<Table>().Flip(true);
+                        direction = player.transform.position+new Vector3(-2f,0f,0f);
                     }
                     else
                     {
-                        closestTable.GetComponent<Table>().Flip(false);
+                        direction = player.transform.position + new Vector3(2f, 0f, 0f);
                     }
-                    state = State.Shoot;
+                    if (Math.Abs(transform.position.x - player.transform.position.x)<= meleeAttackRange)
+                    {
+                        StartCoroutine(MeleeAttack());
+                    }
+                    
+                }
+                if (Math.Abs(transform.position.x - direction.x) < 0.01f)//tutaj chodzi o dokladnosc
+                {
+                    if (type == Type.gunner)
+                    {
+                        if (player.transform.position.x > closestTable.transform.position.x)
+                        {
+                            closestTable.GetComponent<Table>().Flip(true);
+                        }
+                        else
+                        {
+                            closestTable.GetComponent<Table>().Flip(false);
+                        }
+                        state = State.Shoot;
+                    }
+                    
+                    
                 }
                 transform.position = new Vector3(Vector3.MoveTowards(transform.position, direction, angrySpeed * .001f).x, gameObject.transform.position.y, 0f);
             }
@@ -128,6 +165,7 @@ public class Enemy : Human,Damagable
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
+
             StartCoroutine(GoAngry());
         }
         if (Input.GetKeyDown(KeyCode.U))
@@ -138,6 +176,22 @@ public class Enemy : Human,Damagable
         //else isMoving =false;
 
        
+        
+    }
+    IEnumerator MeleeAttack()
+    {
+        if (!meleeAttacking)
+        {
+            meleeAttacking = true;
+            yield return new WaitForSeconds(meleeChargeTime);
+            if (Math.Abs(transform.position.x - player.transform.position.x) <= meleeAttackRange)
+            {
+                player.GetComponent<Player>().Damage(meleeDamage);
+                Debug.Log("melee");
+            }
+            yield return new WaitForSeconds(meleeAttackCooldown);
+            meleeAttacking = false;
+        }
         
     }
     void Shoot()
@@ -193,22 +247,31 @@ public class Enemy : Human,Damagable
     }
     private void DecideWhatToDo()
     {
-        if (Math.Abs(transform.position.x - closestTable.transform.position.x)<Math.Abs(transform.position.x -player.transform.position.x))
+        if (type == Type.gunner)
         {
-            if (player.transform.position.x>closestTable.transform.position.x)
+            if (Math.Abs(transform.position.x - closestTable.transform.position.x) < Math.Abs(transform.position.x - player.transform.position.x))
             {
-                direction = closestTable.transform.position + new Vector3(-1.2f, 0f, 0f);
+                if (player.transform.position.x > closestTable.transform.position.x)
+                {
+                    direction = closestTable.transform.position + new Vector3(-1.2f, 0f, 0f);
+                }
+                else
+                {
+                    direction = closestTable.transform.position + new Vector3(1.2f, 0f, 0f);
+                }
+                state = State.Running;
             }
             else
             {
-                direction = closestTable.transform.position + new Vector3(1.2f, 0f, 0f);
+                state = State.Shoot;
             }
+        }
+        else if(type == Type.rusher)
+        {
+            direction = player.transform.position;
             state = State.Running;
         }
-        else
-        {
-            state = State.Shoot;
-        }
+        
     }
     public void Damage(int dmg)
     {

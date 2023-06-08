@@ -1973,7 +1973,7 @@ MonoBehaviour:
   m_CrouchDisableCollider: {fileID: 803934267}
   m_CrouchDisableObject: {fileID: 1597466797}
   m_wasCrouching: 0
-  defaultRunSpeed: 40
+  defaultRunSpeed: 25
   horizontalMove: 0
   levelManager: {fileID: 1796784029}
   weaponList:
@@ -3864,13 +3864,29 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: maxHp
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+      propertyPath: meleeDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 1796784029}
+    - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+      propertyPath: meleeChargeTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+      propertyPath: meleeAttackRange
+      value: 2.2
+      objectReference: {fileID: 0}
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: timeBetweenShots
       value: 0.15
@@ -3878,6 +3894,10 @@ PrefabInstance:
     - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: timeBetweenRounds
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 171720851918509980, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
+      propertyPath: meleeAttackCooldown
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 171720851918510049, guid: e3991adbb1f4fb14c818e518e7e6fb9b, type: 3}
       propertyPath: m_RootOrder
