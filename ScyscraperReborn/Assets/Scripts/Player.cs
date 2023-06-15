@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -30,7 +31,9 @@ public class Player : Human,Damagable
     [SerializeField]
     private float defaultRunSpeed = 40f;
     public float horizontalMove = 0f;
-    
+    [SerializeField]
+    float wallDecreaseRatio = 2;
+
 
     [SerializeField]
     private LevelManager levelManager;
@@ -133,6 +136,7 @@ public class Player : Human,Damagable
         //etap1
         if (Input.GetButton("Fire1"))
         {
+            MakeSound();
             weapon.Shoot();
             RefreshAmmoText();
         }
@@ -178,6 +182,82 @@ public class Player : Human,Damagable
             crouch = false;
         }
     }
+    void MakeSound()
+    {
+        RaycastHit2D[] lHits = Physics2D.RaycastAll(interactPos.transform.position, Vector2.left, weapon.GetLoudness(), (1 << 7) | (1 << 13));
+        RaycastHit2D[] rHits = Physics2D.RaycastAll(interactPos.transform.position, Vector2.right, weapon.GetLoudness(), (1 << 7) | (1 << 13));
+        Debug.DrawRay(interactPos.transform.position, Vector2.left * weapon.GetLoudness(), Color.green);
+        Debug.DrawRay(interactPos.transform.position, Vector2.right * weapon.GetLoudness(), Color.green);
+        foreach (RaycastHit2D hit in lHits)
+        {
+            if (hit.collider.gameObject.layer == 13)
+            {
+                float distance = Math.Abs(transform.position.x - hit.collider.transform.position.x);
+                Debug.Log(distance);
+                lHits = Physics2D.RaycastAll(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.left, (weapon.GetLoudness() - distance) / wallDecreaseRatio, (1 << 7) | (1 << 13));
+                Debug.DrawRay(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.left * ((weapon.GetLoudness() - distance) / wallDecreaseRatio), Color.red);
+                foreach (RaycastHit2D hit2 in lHits)
+                {
+                    if (hit2.collider.gameObject == hit.collider.gameObject)
+                    {
+                        continue;
+                    }
+                    if (hit2.collider.gameObject.layer == 13)
+                    {
+                        Debug.Log("sciana");
+                        break;
+                    }
+
+                    Debug.Log(hit2.collider.gameObject);
+                    if (hit2.collider.gameObject.layer == 7)
+                    {
+                        hit2.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                    }
+                }
+                break;
+            }
+            Debug.Log(hit.collider.gameObject);
+            if (hit.collider.gameObject.layer == 7)
+            {
+                hit.collider.gameObject.GetComponent<Enemy>().GoAngry();
+            }
+        }
+        foreach (RaycastHit2D hit in rHits)
+        {
+            if (hit.collider.gameObject.layer == 13)
+            {
+                float distance = Math.Abs(transform.position.x - hit.collider.transform.position.x);
+                Debug.Log(distance);
+                lHits = Physics2D.RaycastAll(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.right, (weapon.GetLoudness() - distance) / wallDecreaseRatio, (1 << 7) | (1 << 13));
+                Debug.DrawRay(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.right * ((weapon.GetLoudness() - distance) / wallDecreaseRatio), Color.red);
+                foreach (RaycastHit2D hit2 in lHits)
+                {
+                    if (hit2.collider.gameObject == hit.collider.gameObject)
+                    {
+                        continue;
+                    }
+                    if (hit2.collider.gameObject.layer == 13)
+                    {
+                        Debug.Log("sciana");
+                        break;
+                    }
+
+                    Debug.Log(hit2.collider.gameObject);
+                    if (hit2.collider.gameObject.layer ==7)
+                    {
+                        hit2.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                    }
+                }
+                break;
+            }
+            Debug.Log(hit.collider.gameObject);
+            if (hit.collider.gameObject.layer == 7)
+            {
+                hit.collider.gameObject.GetComponent<Enemy>().GoAngry();
+            }
+        }
+    }
+    
     void SetActiveWeapon(int weaponSlot)
     {
         foreach (GameObject weapon in weaponList)

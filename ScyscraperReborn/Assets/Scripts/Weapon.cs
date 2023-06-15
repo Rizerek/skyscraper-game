@@ -24,9 +24,12 @@ public class Weapon : MonoBehaviour
     private bool automatic;
     [SerializeField]
     private int bulletDestroyTime;
+    [SerializeField]
+    private float loudness;
     private float heat=0;
     private float timer;
     private float timer2;
+
 
     public int maxAmmo;
     public int allAmmo;
@@ -120,5 +123,9 @@ public class Weapon : MonoBehaviour
                 timer2 = 0;
             }
         }
+    }
+    public float GetLoudness()
+    {
+        return loudness;
     }
 }

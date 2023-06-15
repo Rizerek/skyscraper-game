@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> interactables;
     [SerializeField]
-    public List<GameObject>  enemies;
+    public List<GameObject> enemies;
     [SerializeField]
     private float aggroDistance;
     [SerializeField]
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerObj = GameObject.Find("Player");
+        enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
         player = playerObj.GetComponent<Player>();
         StartCoroutine(EnemyAggroSystem());
     }
