@@ -9,6 +9,7 @@ public class Table : MonoBehaviour,Interactable
     public bool flipped;
     [SerializeField]
     private float jumpWidth;
+    public bool occupied=false;
     public void Interact(GameObject interacter)
     {
 
@@ -35,6 +36,14 @@ public class Table : MonoBehaviour,Interactable
             }
         }
 
+    }
+    public bool GetOccupation()
+    {
+        return occupied;
+    }
+    public void SetOccupation(bool occupied)
+    {
+        this.occupied = occupied;
     }
     public void Flip(bool right)
     {

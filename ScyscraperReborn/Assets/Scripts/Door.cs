@@ -10,6 +10,7 @@ public class Door : MonoBehaviour, Interactable
     private int lvlNumber;
     [SerializeField]
     private LevelManager levelManager;
+    private bool occupied = false;
     void Start()
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
@@ -18,5 +19,13 @@ public class Door : MonoBehaviour, Interactable
     {
         interacter.transform.position = secondDoor.position+new Vector3(0,-0.5f,0);
         
+    }
+    public bool GetOccupation()
+    {
+        return occupied;
+    }
+    public void SetOccupation(bool occupied)
+    {
+        this.occupied = occupied;
     }
 }

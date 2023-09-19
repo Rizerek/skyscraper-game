@@ -10,4 +10,11 @@ public class Extraction : MonoBehaviour, Interactable
     {
         SceneManager.LoadScene("EndScene");
     }
+    public bool GetOccupation()
+    {
+        return true;
+    }
+    public void SetOccupation(bool occupied)
+    {
+    }
 }

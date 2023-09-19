@@ -225,7 +225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171720851717111863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.29, z: 0}
+  m_LocalPosition: {x: 0, y: 0.50001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -253,7 +253,8 @@ MonoBehaviour:
   movingInaccuracy: 6
   heatTime: 3
   automatic: 0
-  bulletDestroyTime: 17
+  range: 7
+  loudness: 0
   maxAmmo: 12
   allAmmo: 0
   ammo: 0
@@ -350,6 +351,7 @@ MonoBehaviour:
   state: 0
   type: 0
   weapon: {fileID: 171720851717111862}
+  chaseRange: 0
   timeBetweenShots: 0.3
   timeBetweenRounds: 3
   roundNumber: 5

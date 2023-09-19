@@ -193,7 +193,7 @@ public class Player : Human,Damagable
             if (hit.collider.gameObject.layer == 13)
             {
                 float distance = Math.Abs(transform.position.x - hit.collider.transform.position.x);
-                Debug.Log(distance);
+               // Debug.Log(distance);
                 lHits = Physics2D.RaycastAll(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.left, (weapon.GetLoudness() - distance) / wallDecreaseRatio, (1 << 7) | (1 << 13));
                 Debug.DrawRay(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.left * ((weapon.GetLoudness() - distance) / wallDecreaseRatio), Color.red);
                 foreach (RaycastHit2D hit2 in lHits)
@@ -208,18 +208,28 @@ public class Player : Human,Damagable
                         break;
                     }
 
-                    Debug.Log(hit2.collider.gameObject);
+                  //  Debug.Log(hit2.collider.gameObject);
                     if (hit2.collider.gameObject.layer == 7)
                     {
-                        hit2.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                        AlertOrAngryEnemy(hit.collider.gameObject);
+                        //StartCoroutine(hit2.collider.gameObject.GetComponent<Enemy>().GoAngry());
+                        if (hit2.collider.gameObject.GetComponent<Enemy2>()!=null)
+                        {
+                            hit2.collider.gameObject.GetComponent<Enemy2>().Alert();
+                        }
                     }
                 }
                 break;
             }
-            Debug.Log(hit.collider.gameObject);
+           // Debug.Log(hit.collider.gameObject);
             if (hit.collider.gameObject.layer == 7)
             {
-                hit.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                AlertOrAngryEnemy(hit.collider.gameObject);
+                //StartCoroutine(hit.collider.gameObject.GetComponent<Enemy>().GoAngry());   po zmianie na enemy2 fragment kodu nie potrzebny
+                if (hit.collider.gameObject.GetComponent<Enemy2>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<Enemy2>().Alert();
+                }
             }
         }
         foreach (RaycastHit2D hit in rHits)
@@ -227,7 +237,7 @@ public class Player : Human,Damagable
             if (hit.collider.gameObject.layer == 13)
             {
                 float distance = Math.Abs(transform.position.x - hit.collider.transform.position.x);
-                Debug.Log(distance);
+               //Debug.Log(distance);
                 lHits = Physics2D.RaycastAll(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.right, (weapon.GetLoudness() - distance) / wallDecreaseRatio, (1 << 7) | (1 << 13));
                 Debug.DrawRay(new Vector2(hit.collider.gameObject.transform.position.x, transform.position.y), Vector2.right * ((weapon.GetLoudness() - distance) / wallDecreaseRatio), Color.red);
                 foreach (RaycastHit2D hit2 in lHits)
@@ -245,7 +255,8 @@ public class Player : Human,Damagable
                     Debug.Log(hit2.collider.gameObject);
                     if (hit2.collider.gameObject.layer ==7)
                     {
-                        hit2.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                        AlertOrAngryEnemy(hit.collider.gameObject);
+                        //  StartCoroutine(hit2.collider.gameObject.GetComponent<Enemy>().GoAngry());
                     }
                 }
                 break;
@@ -253,11 +264,23 @@ public class Player : Human,Damagable
             Debug.Log(hit.collider.gameObject);
             if (hit.collider.gameObject.layer == 7)
             {
-                hit.collider.gameObject.GetComponent<Enemy>().GoAngry();
+                AlertOrAngryEnemy(hit.collider.gameObject);
+
+               // StartCoroutine(hit.collider.gameObject.GetComponent<Enemy>().GoAngry());
             }
         }
     }
-    
+    void AlertOrAngryEnemy(GameObject enemy)
+    {
+        if (Mathf.Abs(closestInteractable.transform.position.x - enemy.transform.position.x) < (weapon.GetLoudness()/2))
+        {
+            enemy.GetComponent<Enemy2>().Angry();
+        }
+        else
+        {
+            enemy.GetComponent<Enemy2>().Alert();
+        }
+    }
     void SetActiveWeapon(int weaponSlot)
     {
         foreach (GameObject weapon in weaponList)

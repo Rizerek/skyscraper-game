@@ -23,12 +23,15 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private bool automatic;
     [SerializeField]
-    private int bulletDestroyTime;
+    private float range;
     [SerializeField]
     private float loudness;
+    [SerializeField]
+    private float aimRange;//TODO
     private float heat=0;
     private float timer;
     private float timer2;
+   
 
 
     public int maxAmmo;
@@ -50,7 +53,7 @@ public class Weapon : MonoBehaviour
         timer += Time.fixedDeltaTime;
         timer2 += Time.fixedDeltaTime;
         
-        if (owner.isMoving&&heat<movingInaccuracy)
+        if (owner.isMoving&&heat<movingInaccuracy)  
         {
             heat = movingInaccuracy;
         }
@@ -83,7 +86,7 @@ public class Weapon : MonoBehaviour
                 
                 Quaternion rot = Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, (gameObject.transform.rotation.eulerAngles.z + Random.Range(-heat, heat)));
                 GameObject bulletObj  = Instantiate(bullet, shootPos.position, rot);
-                bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
+                bulletObj.GetComponent<Bullet>().SetDestroyTime(range);
                 if (heat < maxSpread)
                 {
                     heat += spreadSpeed;
@@ -107,7 +110,7 @@ public class Weapon : MonoBehaviour
                 GameObject bulletObj = Instantiate(bullet, shootPos.position, rot);
                 if (bulletObj.GetComponent<Bullet>()!=null)
                 {
-                    bulletObj.GetComponent<Bullet>().SetDestroyTime(bulletDestroyTime);
+                    bulletObj.GetComponent<Bullet>().SetDestroyTime(range);
                 }
                
                 timer = 0;

@@ -51,8 +51,8 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject enemyObj in enemies)
         {
-            Enemy enemy = enemyObj.GetComponent<Enemy>();
-            bool lookingRight = enemy.direction.x > enemyObj.transform.position.x;
+            Enemy2 enemy = enemyObj.GetComponent<Enemy2>();
+            bool lookingRight = enemy.direction > enemyObj.transform.position.x;
             bool playerOnRight = enemyObj.transform.position.x < playerObj.transform.position.x;
             float leftDistance = enemyObj.transform.position.x - playerObj.transform.position.x;
             float rightDistance = playerObj.transform.position.x - enemyObj.transform.position.x;
@@ -62,23 +62,26 @@ public class LevelManager : MonoBehaviour
                 {
                     if (playerOnRight && rightDistance < aggroDistance)//gracz jest po prawej stronie i odleglosc mniejsza od aggroDistance
                     {
-
-                        StartCoroutine(enemy.GoAngry());
+                        Debug.Log("wrrrr");
+                        enemy.Angry();
                     }
                     else if (!playerOnRight && leftDistance < backAggroDistance && !player.GetCrouch())//gracz jest po lewej stronie i odleglosc mniejsza od backAggroDistance i player nie kuca
                     {
-                        StartCoroutine(enemy.GoAngry());
+                        Debug.Log("wrrrr");
+                        enemy.Angry();
                     }
                 }
                 else//patrzy w lewo
                 {
                     if (!playerOnRight && leftDistance < aggroDistance)
                     {
-                        StartCoroutine(enemy.GoAngry());
+                        Debug.Log("wrrrr");
+                        enemy.Angry();
                     }
                     else if (playerOnRight && rightDistance < backAggroDistance && !player.GetCrouch())
                     {
-                        StartCoroutine(enemy.GoAngry());
+                        Debug.Log("wrrrr");
+                        enemy.Angry();
                     }
 
                 }

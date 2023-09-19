@@ -21,7 +21,8 @@ public class Enemy : Human,Damagable
     }
 
 
-    [SerializeField]
+
+
     private int hp;
     [SerializeField]
     private int maxHp;
@@ -53,6 +54,8 @@ public class Enemy : Human,Damagable
     private Type type;
     [SerializeField]
     private Weapon weapon;
+    [SerializeField]
+    private float chaseRange;
 
     [SerializeField]
     private float timeBetweenShots;
@@ -218,20 +221,25 @@ public class Enemy : Human,Damagable
     }
     IEnumerator ShootInterval()
     {
-        if (state == State.Shooting)
-        {
-            
-
-            shooting = true;
-            for (int i = 0; i < roundNumber; i++)
+        //if (chaseRange< Math.Abs(transform.position.x - player.transform.position.x))
+        //{
+            if (state == State.Shooting)
             {
-                weapon.Shoot();
-                yield return new WaitForSeconds(timeBetweenShots);
+
+
+                shooting = true;
+                for (int i = 0; i < roundNumber; i++)
+                {
+                    weapon.Shoot();
+                    yield return new WaitForSeconds(timeBetweenShots);
+                }
+                shooting = false;
+                yield return new WaitForSeconds(timeBetweenRounds);
+                StartCoroutine(ShootInterval());
             }
-            shooting = false;
-            yield return new WaitForSeconds(timeBetweenRounds);
-            StartCoroutine(ShootInterval());
-        }
+       // }
+        
+        
     }
     private void GoIdle(int interval)
     {
@@ -259,22 +267,27 @@ public class Enemy : Human,Damagable
     {
         if (type == Type.gunner)
         {
-            if (Math.Abs(transform.position.x - closestTable.transform.position.x) < Math.Abs(transform.position.x - player.transform.position.x))
-            {
-                if (player.transform.position.x > closestTable.transform.position.x)
+           // if (chaseRange < Math.Abs(transform.position.x - player.transform.position.x))
+          //  {
+                if (Math.Abs(transform.position.x - closestTable.transform.position.x) < Math.Abs(transform.position.x - player.transform.position.x))
                 {
-                    direction = closestTable.transform.position + new Vector3(-1.2f, 0f, 0f);
+                    if (player.transform.position.x > closestTable.transform.position.x)
+                    {
+                        direction = closestTable.transform.position + new Vector3(-1.2f, 0f, 0f);
+                    }
+                    else
+                    {
+                        direction = closestTable.transform.position + new Vector3(1.2f, 0f, 0f);
+                    }
+                    state = State.Running;
                 }
                 else
                 {
-                    direction = closestTable.transform.position + new Vector3(1.2f, 0f, 0f);
+                    state = State.Shoot;
                 }
-                state = State.Running;
-            }
-            else
-            {
-                state = State.Shoot;
-            }
+          //  }
+
+            
         }
         else if(type == Type.rusher)
         {
